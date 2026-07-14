@@ -122,4 +122,15 @@ module Docuseal
   def refresh_default_url_options!
     @default_url_options = nil
   end
+
+  def embed_script_url
+    uri = Addressable::URI.new(
+      scheme: default_url_options[:protocol],
+      host: default_url_options[:host],
+      port: default_url_options[:port],
+      path: '/js/form.js'
+    )
+
+    uri.to_s
+  end
 end

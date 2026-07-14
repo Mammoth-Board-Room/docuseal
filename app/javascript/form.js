@@ -1,6 +1,7 @@
 import { createApp, reactive } from 'vue'
 
 import Form from './submission_form/form'
+import { startEmbedBridge } from './submission_form/embed_bridge'
 import DownloadButton from './elements/download_button'
 import ToggleSubmit from './elements/toggle_submit'
 import FetchForm from './elements/fetch_form'
@@ -8,6 +9,8 @@ import ScrollButtons from './elements/scroll_buttons'
 import PageContainer from './elements/page_container'
 import SubmitForm from './elements/submit_form'
 import ModalButton from './elements/modal_button'
+
+startEmbedBridge()
 
 const safeRegisterElement = (name, element, options = {}) => !window.customElements.get(name) && window.customElements.define(name, element, options)
 

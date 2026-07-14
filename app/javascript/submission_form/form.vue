@@ -703,6 +703,7 @@ import { IconInnerShadowTop, IconArrowsDiagonal, IconWritingSign, IconArrowsDiag
 import AppearsOn from './appears_on'
 import i18n from './i18n'
 import { sanitizeUrl } from '@braintree/sanitize-url'
+import { postCompleted } from './embed_bridge'
 
 if (typeof URL.canParse !== 'function') {
   URL.canParse = function (url, base) {
@@ -1753,13 +1754,18 @@ export default {
       this.isCompleted = true
       this.isFormVisible = true
 
+      let completedPayload = null
+
       if (resp?.text) {
         const respData = await resp.text()
 
         if (respData) {
-          this.onComplete(JSON.parse(respData))
+          completedPayload = JSON.parse(respData)
+          this.onComplete(completedPayload)
         }
       }
+
+      postCompleted(completedPayload || this.submitter)
 
       if (this.completedRedirectUrl) {
         window.location.href = sanitizeUrl(this.completedRedirectUrl)
