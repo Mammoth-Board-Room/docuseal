@@ -204,7 +204,11 @@ export default {
       if (this.modelValue) {
         e.preventDefault()
 
-        this.$emit('submit')
+        // Enter skips the form's native validation; show the browser bubble
+        // (with validation.message) instead of saving an out-of-range date.
+        if (this.$refs.input.reportValidity()) {
+          this.$emit('submit')
+        }
       }
     },
     onPaste (e) {
