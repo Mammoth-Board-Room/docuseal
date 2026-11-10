@@ -174,7 +174,32 @@ export default {
       }
     }
   },
+  watch: {
+    modelValue () {
+      this.$nextTick(this.updateRangeMessage)
+    },
+    field () {
+      this.$nextTick(this.updateRangeMessage)
+    }
+  },
+  mounted () {
+    this.updateRangeMessage()
+  },
   methods: {
+    // The browser's own min/max message names a date ("Value must be ... or
+    // earlier"). When the field carries validation.message, show that instead
+    // whenever the date is outside the range.
+    updateRangeMessage () {
+      const input = this.$refs.input
+
+      if (!input) return
+
+      input.setCustomValidity('')
+
+      if (this.field.validation?.message && (input.validity.rangeOverflow || input.validity.rangeUnderflow)) {
+        input.setCustomValidity(this.field.validation.message)
+      }
+    },
     onEnter (e) {
       if (this.modelValue) {
         e.preventDefault()
